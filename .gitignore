@@ -1,0 +1,11 @@
+# Compiled source #
+*.class
+
+# Packages #
+*.jar
+
+#Intellij#
+*.iml
+*.xml
+
+target/
