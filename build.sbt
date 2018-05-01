@@ -4,7 +4,7 @@ val LogbackVersion = "1.2.3"
 
 lazy val root = (project in file("."))
   .settings(
-    organization := "de.mnet",
+    organization := "de.koegel",
     name := "coffee-cleaner-backend-scala",
     version := "0.0.1-SNAPSHOT",
     scalaVersion := "2.12.5",

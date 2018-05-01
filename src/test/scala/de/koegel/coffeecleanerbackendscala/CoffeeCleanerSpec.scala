@@ -1,4 +1,4 @@
-package de.mnet.coffeecleanerbackendscala
+package de.koegel.coffeecleanerbackendscala
 
 import cats.effect.IO
 import org.http4s._

@@ -1,4 +1,4 @@
-package de.mnet.coffeecleanerbackendscala
+package de.koegel.coffeecleanerbackendscala
 
 import cats.effect.{Effect, IO}
 import fs2.StreamApp
