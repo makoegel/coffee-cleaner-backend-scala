@@ -1,4 +1,4 @@
-package de.koegel.coffeecleanerbackendscala
+package io.github.makoegel.coffeecleanerbackendscala
 
 import cats.effect.Effect
 import io.circe.Json
