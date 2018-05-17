@@ -11,6 +11,6 @@ object Cleaner {
   val Juergen = Cleaner(5, "Jürgen", 1)
   val Jack = Cleaner(6, "Jack", 4)
 
-  def findCleaners: List[Cleaner] = List(FranzCarlos, Michl, Michl2, Juergen, Jack)
-
+  var allCleaners: List[Cleaner] = List(FranzCarlos, Michl, Michl2, Juergen, Jack)
+  def addNewCleaner(cleaner: Cleaner): List[Cleaner] = allCleaners :+ cleaner
 }

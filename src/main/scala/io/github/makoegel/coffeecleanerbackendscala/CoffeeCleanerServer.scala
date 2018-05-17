@@ -14,10 +14,10 @@ object CoffeeCleanerServer extends StreamApp[IO] {
 
 object ServerStream {
 
-  def coffeeCleanerService[F[_]: Effect] = new CoffeeCleanerService[F].service
+  def coffeeCleanerService[F[_]: Effect] = new CoffeeCleanerService[IO].service
 
   def stream[F[_]: Effect](implicit ec: ExecutionContext) =
-    BlazeBuilder[F]
+    BlazeBuilder[IO]
       .bindHttp(8080, "0.0.0.0")
       .mountService(coffeeCleanerService, "/")
       .serve
