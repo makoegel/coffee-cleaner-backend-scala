@@ -57,7 +57,7 @@ class CoffeeCleanerSpec extends org.specs2.mutable.Specification {
   private[this] def uriNewCleaner(): MatchResult[String] = {
     println(addNewCleaner.as[String].unsafeRunSync())
     addNewCleaner.as[String].unsafeRunSync() must beEqualTo(
-      "{\n  \"id\" : \"7\",\n  \"name\" : \"Marion\",\n  \"team\" : \"9\"\n}")
+      "{\n  \"id\" : \"7\",\n  \"name\" : \"Max\",\n  \"team\" : \"9\"\n}")
   }
 
 }
