@@ -22,7 +22,7 @@ object Cleaner {
   val Juergen = Cleaner("5", "Jürgen", "1")
   val Jack = Cleaner("6", "Jack", "4")
 
-  val allCleaners: List[Cleaner] = List(FranzCarlos, Michl, Michl2, Juergen, Jack)
+  var allCleaners: List[Cleaner] = List(FranzCarlos, Michl, Michl2, Juergen, Jack)
 }
 
 object NewCleaner {
@@ -32,8 +32,9 @@ object NewCleaner {
   def addNewCleaner(newCleaner: NewCleaner): Cleaner = {
     val maxId = allCleaners.sortWith(_.id > _.id).head.id
     val newCleanerId = maxId.toInt + 1
-
-    Cleaner(newCleanerId.toString, newCleaner.name, newCleaner.team)
+    val cleaner: Cleaner = Cleaner(newCleanerId.toString, newCleaner.name, newCleaner.team)
+    allCleaners = allCleaners :+ cleaner
+    cleaner
   }
 
 }
