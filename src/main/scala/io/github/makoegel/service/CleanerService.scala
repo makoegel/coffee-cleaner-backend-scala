@@ -15,11 +15,11 @@ object CleanerService {
   def findCleaner(delCleanerId: String): Option[Cleaner] =
     allCleaners.find(c => c.id == delCleanerId)
 
-  /*  def deleteCleaner(delCleanerId: String): List[Cleaner] =
-    for {
+  def deleteCleaner(delCleanerId: String): Unit =
+    allCleaners = for {
       cleaner <- allCleaners
-      newCleanerslist <- delCleanerId != cleaner.id
-    } yield (newCleanerslist)*/
+      if (delCleanerId != cleaner.id)
+    } yield (cleaner)
 
   def addNewCleaner(newCleaner: NewCleaner): Cleaner = {
     val maxId = allCleaners.sortWith(_.id > _.id).head.id
