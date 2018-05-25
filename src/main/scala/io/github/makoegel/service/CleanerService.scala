@@ -1,6 +1,6 @@
 package io.github.makoegel.service
 
-import io.github.makoegel.model.{Cleaner, Cleaners, NewCleaner}
+import io.github.makoegel.model.{Cleaner, NewCleaner}
 
 object CleanerService {
 
@@ -18,8 +18,8 @@ object CleanerService {
   def deleteCleaner(delCleanerId: String): Unit =
     allCleaners = for {
       cleaner <- allCleaners
-      if (delCleanerId != cleaner.id)
-    } yield (cleaner)
+      if delCleanerId != cleaner.id
+    } yield cleaner
 
   def addNewCleaner(newCleaner: NewCleaner): Cleaner = {
     val maxId = allCleaners.sortWith(_.id > _.id).head.id
