@@ -64,15 +64,15 @@ class CoffeeCleanerSpec extends org.specs2.mutable.Specification {
 
   private[this] def uriReturnsCleaners(): MatchResult[String] =
     retCleaners.as[String].unsafeRunSync() must beEqualTo(
-      "{\"cleaner\":[{\"id\":\"1\",\"name\":\"Franz Carlos\",\"team\":\"2\"}," +
-        "{\"id\":\"2\",\"name\":\"Michl\",\"team\":\"2\"},{\"id\":\"3\",\"name\":\"Michl2\",\"team\":\"3\"}," +
-        "{\"id\":\"5\",\"name\":\"Jürgen\",\"team\":\"1\"},{\"id\":\"6\",\"name\":\"Jack\",\"team\":\"4\"}]}"
+      "{\"cleaner\":[{\"id\":1,\"name\":\"Franz Carlos\",\"team\":2}," +
+        "{\"id\":2,\"name\":\"Michl\",\"team\":2},{\"id\":3,\"name\":\"Michl2\",\"team\":3}," +
+        "{\"id\":5,\"name\":\"Jürgen\",\"team\":1},{\"id\":6,\"name\":\"Jack\",\"team\":4}]}"
     )
 
   // add new Cleaner
   private[this] val addNewCleaner: Response[IO] = {
 
-    val newCleaner = NewCleaner("Max", "9")
+    val newCleaner = NewCleaner("Max", 9)
     val body = newCleaner.asJson(NewCleaner.newCleanerEncoder)
 
     val addNewCleaner = Request[IO](Method.POST, Uri.uri("/cc/api/cleaner")).withBody(body).unsafeRunSync()
@@ -84,13 +84,13 @@ class CoffeeCleanerSpec extends org.specs2.mutable.Specification {
 
   private[this] def uriNewCleaner(): MatchResult[String] =
     addNewCleaner.as[String].unsafeRunSync() must beEqualTo(
-      "{\n  \"id\" : \"7\",\n  \"name\" : \"Max\",\n  \"team\" : \"9\"\n}")
+      "{\n  \"id\" : 7,\n  \"name\" : \"Max\",\n  \"team\" : 9\n}")
 
   //update Cleaner
   // delete Cleaner
   private[this] val updCleaner: Response[IO] = {
 
-    val updCleanerId = Cleaner("2", "Maxi", "6")
+    val updCleanerId = Cleaner(2, "Maxi", 6)
     val body = updCleanerId.asJson(Cleaner.cleanerEncoder)
 
     val updCleaner = Request[IO](Method.PUT, Uri.uri("/cc/api/cleaner")).withBody(body).unsafeRunSync()
@@ -106,7 +106,7 @@ class CoffeeCleanerSpec extends org.specs2.mutable.Specification {
   // update Cleaner - id nicht gefunden
   private[this] val updCleanerNotFound: Response[IO] = {
 
-    val updCleanerId = Cleaner("10", "Max", "6")
+    val updCleanerId = Cleaner(10, "Max", 6)
     val body = updCleanerId.asJson(Cleaner.cleanerEncoder)
 
     val updCleaner = Request[IO](Method.PUT, Uri.uri("/cc/api/cleaner")).withBody(body).unsafeRunSync()
@@ -123,7 +123,7 @@ class CoffeeCleanerSpec extends org.specs2.mutable.Specification {
 // delete Cleaner
   private[this] val delCleaner: Response[IO] = {
 
-    val delCleanerId = DelCleaner("2")
+    val delCleanerId = DelCleaner(2)
     val body = delCleanerId.asJson(DelCleaner.delCleanerEncoder)
 
     val delCleaner = Request[IO](Method.DELETE, Uri.uri("/cc/api/cleaner")).withBody(body).unsafeRunSync()
@@ -139,7 +139,7 @@ class CoffeeCleanerSpec extends org.specs2.mutable.Specification {
   // delete Cleaner - id nicht gefunden
   private[this] val delCleanerNotFound: Response[IO] = {
 
-    val delCleanerId = DelCleaner("10")
+    val delCleanerId = DelCleaner(10)
     val body = delCleanerId.asJson(DelCleaner.delCleanerEncoder)
 
     val delCleaner = Request[IO](Method.DELETE, Uri.uri("/cc/api/cleaner")).withBody(body).unsafeRunSync()
