@@ -22,7 +22,19 @@ class CoffeeCleanerService[F[_]: Effect] extends Http4sDsl[IO] {
             Ok(cleaner.asJson.toString())
           }
         }
-      case req @ PUT -> Root / cc / api / cleaner => ???
+      case req @ PUT -> Root / cc / api / cleaner =>
+        req.as(implicitly, jsonOf[IO, Cleaner]).flatMap { updCleaner =>
+          {
+            val cleaner: Option[Cleaner] = CleanerService.findCleaner(updCleaner.id)
+            cleaner match {
+              case Some(cleaner) => {
+                CleanerService.updateCleaner(updCleaner)
+                Ok("Cleaner aktualisiert")
+              }
+              case None => NotFound("Cleaner wurde nicht gefunden und konnte nicht aktualisiert werden.")
+            }
+          }
+        }
       case req @ DELETE -> Root / cc / api / cleaner =>
         req
           .as(implicitly, jsonOf[IO, DelCleaner])
@@ -34,7 +46,7 @@ class CoffeeCleanerService[F[_]: Effect] extends Http4sDsl[IO] {
                   CleanerService.deleteCleaner(cleaner.id)
                   Ok("Cleaner gelöscht")
                 }
-                case None => Ok("Cleaner wurde nicht gefunden und konnte nicht gelöscht werden.")
+                case None => NotFound("Cleaner wurde nicht gefunden und konnte nicht gelöscht werden.")
               }
             }
           }

@@ -29,4 +29,13 @@ object CleanerService {
     cleaner
   }
 
+  def updateCleaner(updCleaner: Cleaner): Unit =
+    allCleaners = allCleaners.map(c =>
+      c match {
+        case cleaner => {
+          val c = if (updCleaner.id == cleaner.id) updCleaner else cleaner
+          c
+        }
+    })
+
 }

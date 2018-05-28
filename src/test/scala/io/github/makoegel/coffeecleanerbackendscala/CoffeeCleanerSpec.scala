@@ -3,7 +3,7 @@ package io.github.makoegel.coffeecleanerbackendscala
 import cats.effect.IO
 import org.http4s.circe._
 import io.circe.syntax._
-import io.github.makoegel.model.{DelCleaner, NewCleaner}
+import io.github.makoegel.model.{Cleaner, DelCleaner, NewCleaner}
 import org.http4s._
 import org.http4s.implicits._
 import org.specs2.matcher.MatchResult
@@ -26,9 +26,24 @@ class CoffeeCleanerSpec extends org.specs2.mutable.Specification {
       uriNewCleaner()
     }
 
+    "UpdCleaner" >> {
+      uriUpdCleanerReturns200()
+    }
+    "UpdCleanerNotFound" >> {
+      uriUpdCleanerReturns404()
+    }
+    "return Success UpdCleaner" >> {
+      uriUpdCleaner()
+    }
+    "return Success UpdCleanerNotFound" >> {
+      uriUpdCleanerNotFound()
+    }
+
     "DelCleaner" >> {
       uriDelCleanerReturns200()
-
+    }
+    "DelCleanerNotFound" >> {
+      uriDelCleanerReturns404()
     }
     "return Success DelCleaner" >> {
       uriDelCleaner()
@@ -71,6 +86,40 @@ class CoffeeCleanerSpec extends org.specs2.mutable.Specification {
     addNewCleaner.as[String].unsafeRunSync() must beEqualTo(
       "{\n  \"id\" : \"7\",\n  \"name\" : \"Max\",\n  \"team\" : \"9\"\n}")
 
+  //update Cleaner
+  // delete Cleaner
+  private[this] val updCleaner: Response[IO] = {
+
+    val updCleanerId = Cleaner("2", "Maxi", "6")
+    val body = updCleanerId.asJson(Cleaner.cleanerEncoder)
+
+    val updCleaner = Request[IO](Method.PUT, Uri.uri("/cc/api/cleaner")).withBody(body).unsafeRunSync()
+    new CoffeeCleanerService[IO].service.orNotFound(updCleaner).unsafeRunSync()
+  }
+
+  private[this] def uriUpdCleanerReturns200(): MatchResult[Status] =
+    updCleaner.status must beEqualTo(Status.Ok)
+
+  private[this] def uriUpdCleaner(): MatchResult[String] =
+    updCleaner.as[String].unsafeRunSync() must beEqualTo("Cleaner aktualisiert")
+
+  // update Cleaner - id nicht gefunden
+  private[this] val updCleanerNotFound: Response[IO] = {
+
+    val updCleanerId = Cleaner("10", "Max", "6")
+    val body = updCleanerId.asJson(Cleaner.cleanerEncoder)
+
+    val updCleaner = Request[IO](Method.PUT, Uri.uri("/cc/api/cleaner")).withBody(body).unsafeRunSync()
+    new CoffeeCleanerService[IO].service.orNotFound(updCleaner).unsafeRunSync()
+  }
+
+  private[this] def uriUpdCleanerReturns404(): MatchResult[Status] =
+    updCleanerNotFound.status must beEqualTo(Status.NotFound)
+
+  private[this] def uriUpdCleanerNotFound(): MatchResult[String] =
+    updCleanerNotFound.as[String].unsafeRunSync() must
+      beEqualTo("Cleaner wurde nicht gefunden und konnte nicht aktualisiert werden.")
+
 // delete Cleaner
   private[this] val delCleaner: Response[IO] = {
 
@@ -96,6 +145,9 @@ class CoffeeCleanerSpec extends org.specs2.mutable.Specification {
     val delCleaner = Request[IO](Method.DELETE, Uri.uri("/cc/api/cleaner")).withBody(body).unsafeRunSync()
     new CoffeeCleanerService[IO].service.orNotFound(delCleaner).unsafeRunSync()
   }
+
+  private[this] def uriDelCleanerReturns404(): MatchResult[Status] =
+    delCleanerNotFound.status must beEqualTo(Status.NotFound)
 
   private[this] def uriDelCleanerNotFound(): MatchResult[String] =
     delCleanerNotFound.as[String].unsafeRunSync() must

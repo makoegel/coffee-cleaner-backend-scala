@@ -2,6 +2,7 @@ Curl-Beispiele:
 
 curl -X GET http://localhost:8080/cc/api/cleaner
 curl -X POST -d '{"name" : "Max", "team": "9"}' http://localhost:8080/cc/api/cleaner
+curl -X PUT -d '{"id":"3", "name":"Max", "team": "6"}' http://localhost:8080/cc/api/cleaner
 curl -X DELETE -d '{"id" : "2"}' http://localhost:8080/cc/api/cleaner
 curl -X DELETE -d '{"id" : "10"}' http://localhost:8080/cc/api/cleaner
 
