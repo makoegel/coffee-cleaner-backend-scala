@@ -1,4 +1,4 @@
-package io.github.makoegel.coffeecleanerbackendscala
+package coffeecleanerbackendscala.server
 
 import cats.effect.{Effect, IO}
 import fs2.StreamApp

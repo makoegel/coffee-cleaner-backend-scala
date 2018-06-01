@@ -1,9 +1,9 @@
-package io.github.makoegel.coffeecleanerbackendscala
+package coffeecleanerbackendscala.server
 
 import cats.effect.IO
 import org.http4s.circe._
 import io.circe.syntax._
-import io.github.makoegel.model.{Cleaner, DelCleaner, NewCleaner}
+import coffeecleanerbackendscala.server.domain.model.{Cleaner, DelCleaner, NewCleaner}
 import org.http4s._
 import org.http4s.implicits._
 import org.specs2.matcher.MatchResult

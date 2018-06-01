@@ -1,4 +1,4 @@
-package io.github.makoegel.model
+package coffeecleanerbackendscala.server.domain.model
 
 import io.circe.{Decoder, Encoder}
 import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}

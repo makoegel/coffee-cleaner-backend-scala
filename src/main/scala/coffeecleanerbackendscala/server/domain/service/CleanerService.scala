@@ -1,6 +1,6 @@
-package io.github.makoegel.service
+package coffeecleanerbackendscala.server.domain.service
 
-import io.github.makoegel.model.{Cleaner, NewCleaner}
+import coffeecleanerbackendscala.server.domain.model.{Cleaner, NewCleaner}
 
 object CleanerService {
 

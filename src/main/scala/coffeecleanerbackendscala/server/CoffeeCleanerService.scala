@@ -1,12 +1,12 @@
-package io.github.makoegel.coffeecleanerbackendscala
+package coffeecleanerbackendscala.server
 
 import cats.effect._
-import io.github.makoegel.model.{Cleaner, Cleaners, DelCleaner, NewCleaner}
+import coffeecleanerbackendscala.server.domain.model.{Cleaner, Cleaners, DelCleaner, NewCleaner}
+import coffeecleanerbackendscala.server.domain.service.CleanerService
 import org.http4s._
 import org.http4s.circe.{jsonOf, _}
 import org.http4s.dsl.Http4sDsl
 import io.circe.syntax._
-import io.github.makoegel.service.CleanerService
 
 class CoffeeCleanerService[F[_]: Effect] extends Http4sDsl[IO] {
 
