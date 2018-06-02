@@ -56,7 +56,7 @@ class CoffeeCleanerSpec extends org.specs2.mutable.Specification {
 // return all Cleaners
   private[this] val retCleaners: Response[IO] = {
     val getCleaners = Request[IO](Method.GET, Uri.uri("/cc/api/cleaner"))
-    new CoffeeCleanerService[IO].service.orNotFound(getCleaners).unsafeRunSync()
+    CoffeeCleanerService.service.orNotFound(getCleaners).unsafeRunSync()
   }
 
   private[this] def uriReturns200(): MatchResult[Status] =
@@ -76,7 +76,7 @@ class CoffeeCleanerSpec extends org.specs2.mutable.Specification {
     val body = newCleaner.asJson(NewCleaner.newCleanerEncoder)
 
     val addNewCleaner = Request[IO](Method.POST, Uri.uri("/cc/api/cleaner")).withBody(body).unsafeRunSync()
-    new CoffeeCleanerService[IO].service.orNotFound(addNewCleaner).unsafeRunSync()
+    CoffeeCleanerService.service.orNotFound(addNewCleaner).unsafeRunSync()
   }
 
   private[this] def uriNewCleanerReturns200(): MatchResult[Status] =
@@ -94,7 +94,7 @@ class CoffeeCleanerSpec extends org.specs2.mutable.Specification {
     val body = updCleanerId.asJson(Cleaner.cleanerEncoder)
 
     val updCleaner = Request[IO](Method.PUT, Uri.uri("/cc/api/cleaner")).withBody(body).unsafeRunSync()
-    new CoffeeCleanerService[IO].service.orNotFound(updCleaner).unsafeRunSync()
+    CoffeeCleanerService.service.orNotFound(updCleaner).unsafeRunSync()
   }
 
   private[this] def uriUpdCleanerReturns200(): MatchResult[Status] =
@@ -110,7 +110,7 @@ class CoffeeCleanerSpec extends org.specs2.mutable.Specification {
     val body = updCleanerId.asJson(Cleaner.cleanerEncoder)
 
     val updCleaner = Request[IO](Method.PUT, Uri.uri("/cc/api/cleaner")).withBody(body).unsafeRunSync()
-    new CoffeeCleanerService[IO].service.orNotFound(updCleaner).unsafeRunSync()
+    CoffeeCleanerService.service.orNotFound(updCleaner).unsafeRunSync()
   }
 
   private[this] def uriUpdCleanerReturns404(): MatchResult[Status] =
@@ -127,7 +127,7 @@ class CoffeeCleanerSpec extends org.specs2.mutable.Specification {
     val body = delCleanerId.asJson(DelCleaner.delCleanerEncoder)
 
     val delCleaner = Request[IO](Method.DELETE, Uri.uri("/cc/api/cleaner")).withBody(body).unsafeRunSync()
-    new CoffeeCleanerService[IO].service.orNotFound(delCleaner).unsafeRunSync()
+    CoffeeCleanerService.service.orNotFound(delCleaner).unsafeRunSync()
   }
 
   private[this] def uriDelCleanerReturns200(): MatchResult[Status] =
@@ -143,7 +143,7 @@ class CoffeeCleanerSpec extends org.specs2.mutable.Specification {
     val body = delCleanerId.asJson(DelCleaner.delCleanerEncoder)
 
     val delCleaner = Request[IO](Method.DELETE, Uri.uri("/cc/api/cleaner")).withBody(body).unsafeRunSync()
-    new CoffeeCleanerService[IO].service.orNotFound(delCleaner).unsafeRunSync()
+    CoffeeCleanerService.service.orNotFound(delCleaner).unsafeRunSync()
   }
 
   private[this] def uriDelCleanerReturns404(): MatchResult[Status] =

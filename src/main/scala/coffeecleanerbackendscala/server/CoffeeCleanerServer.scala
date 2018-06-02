@@ -1,24 +1,22 @@
 package coffeecleanerbackendscala.server
 
-import cats.effect.{Effect, IO}
+import cats.effect.IO
+import eu.timepit.refined.auto._
+import coffeecleanerbackendscala.server.application.{Config, Context}
+import fs2.StreamApp.ExitCode
 import fs2.StreamApp
 import org.http4s.server.blaze.BlazeBuilder
-
-import scala.concurrent.ExecutionContext
+import scala.concurrent.ExecutionContext.Implicits.global
 
 object CoffeeCleanerServer extends StreamApp[IO] {
-  import scala.concurrent.ExecutionContext.Implicits.global
 
-  def stream(args: List[String], requestShutdown: IO[Unit]) = ServerStream.stream[IO]
-}
+  override def stream(args: List[String], requestShutdown: IO[Unit]): fs2.Stream[IO, ExitCode] =
+    Context.prepare[IO].flatMap { ctx =>
+      runServer(ctx.config.http).serve
+    }
 
-object ServerStream {
-
-  def coffeeCleanerService[F[_]: Effect] = new CoffeeCleanerService[IO].service
-
-  def stream[F[_]: Effect](implicit ec: ExecutionContext) =
+  def runServer(httpConfig: Config.Http): BlazeBuilder[IO] =
     BlazeBuilder[IO]
-      .bindHttp(8080, "0.0.0.0")
-      .mountService(coffeeCleanerService, "/")
-      .serve
+      .bindHttp(httpConfig.port, httpConfig.host)
+      .mountService(CoffeeCleanerService.service, "/")
 }

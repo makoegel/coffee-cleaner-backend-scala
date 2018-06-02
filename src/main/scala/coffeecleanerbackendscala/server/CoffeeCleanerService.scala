@@ -8,7 +8,10 @@ import org.http4s.circe.{jsonOf, _}
 import org.http4s.dsl.Http4sDsl
 import io.circe.syntax._
 
-class CoffeeCleanerService[F[_]: Effect] extends Http4sDsl[IO] {
+object CoffeeCleanerService {
+
+  val dsl = Http4sDsl[IO]
+  import dsl._
 
   val service: HttpService[IO] = {
     HttpService[IO] {
